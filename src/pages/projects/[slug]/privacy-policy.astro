@@ -12,7 +12,8 @@ type Props = CollectionEntry<'projects'>;
 
 const project = Astro.props;
 const appName = project.data.appName || project.data.title;
-const lastUpdated = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+const showsAds = project.data.showsAds;
+const lastUpdated = (project.data.policyUpdated ?? new Date()).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 ---
 
 <BaseLayout title={`Privacy Policy — ${appName}`} description={`Privacy policy for ${appName} application.`}>
@@ -40,8 +41,29 @@ const lastUpdated = new Date().toLocaleDateString('en-US', { year: 'numeric', mo
 
 				<h2>Data Storage</h2>
 				<p>
-					Your data is primarily stored locally on your device. We do not sell, trade, or otherwise transfer your personal information to outside parties.
+					Your data is primarily stored locally on your device. We do not sell, trade, or otherwise transfer your personal information to outside parties{showsAds ? ', except the advertising data described below' : ''}.
 				</p>
+
+				{showsAds && (
+					<>
+						<h2>Advertising</h2>
+						<p>
+							{appName} shows ads through Google AdMob. Your app records stay on your device and are not sent to AdMob. To show and measure ads, the Google Mobile Ads SDK collects and shares with Google:
+						</p>
+						<ul>
+							<li><strong>Device identifiers:</strong> the Android advertising ID and similar app instance identifiers.</li>
+							<li><strong>Approximate location:</strong> derived from your IP address.</li>
+							<li><strong>App interactions:</strong> such as ad views, ad taps and app launches.</li>
+							<li><strong>Diagnostics:</strong> crash logs and performance data of the ads SDK.</li>
+						</ul>
+						<p>
+							This data is used for advertising, analytics and fraud prevention, and is encrypted in transit. Where the law requires it (for example in the EEA, the UK and Switzerland), the app asks for your consent before requesting ads, and you can change your choice at any time from the app's ad privacy option. You can also reset or delete your advertising ID in your device settings.
+						</p>
+						<p>
+							Read <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener noreferrer">how Google uses information from apps that use its services</a>.
+						</p>
+					</>
+				)}
 
 				<h2>Third-Party Services</h2>
 				<p>
@@ -49,6 +71,7 @@ const lastUpdated = new Date().toLocaleDateString('en-US', { year: 'numeric', mo
 				</p>
 				<ul>
 					<li><a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google Play Services</a></li>
+					{showsAds && <li><a href="https://support.google.com/admob/answer/6128543" target="_blank" rel="noopener noreferrer">Google AdMob</a></li>}
 				</ul>
 
 				<h2>Children's Privacy</h2>

@@ -28,6 +28,8 @@ const projects = defineCollection({
 		order: z.number().default(0),
 		hasPrivacyPolicy: z.boolean().default(false),
 		appName: z.string().optional(),
+		showsAds: z.boolean().default(false),
+		policyUpdated: z.coerce.date().optional(),
 	}),
 });
 
